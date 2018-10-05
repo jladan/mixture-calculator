@@ -77,18 +77,42 @@ function mix_two(sol1, sol2) {
 }
 /********* The app's actual code *************/
 var register;
-var regDiv;
-var saltInput;
-var usaltInput;
-var waterInput;
-var uwaterInput;
-function setSaltInput() {
-    saltInput = document.getElementById('salt');
-    usaltInput = document.getElementById('usalt');
+var regMassElem;
+var regConcElem;
+function output_register() {
+    regMassElem.innerText = register.m.v + " +- " + register.m.u + " g";
+    regConcElem.innerText = register.c.v + " +- " + register.c.u + " salt";
 }
-function setWaterInput() {
-    waterInput = document.getElementById('salt');
-    uwaterInput = document.getElementById('usalt');
+var saltElem;
+var usaltElem;
+var waterElem;
+var uwaterElem;
+function setElements() {
+    saltElem = document.getElementById('salt');
+    usaltElem = document.getElementById('usalt');
+    waterElem = document.getElementById('water');
+    uwaterElem = document.getElementById('uwater');
+    regMassElem = document.getElementById('reg-mass');
+    regConcElem = document.getElementById('reg-concentration');
 }
 function mix_button() {
+    var salt = new UValue(saltElem.valueAsNumber * 1e-3, usaltElem.valueAsNumber * 1e-3);
+    var water = new UValue(waterElem.valueAsNumber, uwaterElem.valueAsNumber);
+    register = mix_solid(salt, water);
+    output_register();
+}
+function subtract_button() {
+    var water = new UValue(waterElem.valueAsNumber, uwaterElem.valueAsNumber);
+    register = split_mass(register, water);
+    output_register();
+}
+function set_mass_button() {
+    var water = new UValue(waterElem.valueAsNumber, uwaterElem.valueAsNumber);
+    register = change_mass(register, water);
+    output_register();
+}
+function dilute_button() {
+    var water = new UValue(waterElem.valueAsNumber, uwaterElem.valueAsNumber);
+    register = dilute(register, water);
+    output_register();
 }

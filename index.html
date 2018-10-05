@@ -17,15 +17,20 @@
       </div>
       <div>
           <label for="water">Solution (g):</label>
-          <input type="number" name="water" id="water" value="0.0">
-          <input type="number" name="uwater" id="uwater" value="0.1">
+          <input type="number" name="water" id="water" value="1000" step=".1">
+          <input type="number" name="uwater" id="uwater" value="0.1" step=".1">
       </div>
       <div>
-          <button type="button">Mix solid</button>
-          <button type="button">Subtract off</button>
-          <button type="button">Dilute</button>
+          <button type="button" id="mix-button" onclick="mix_button()">Mix solid</button>
+          <button type="button" id="sub-button" onclick="subtract_button()">Subtract off</button>
+          <button type="button" id="set-button" onclick="set_mass_button()">Set Mass</button>
+          <button type="button" id="dil-button" onclick="dilute_button()">Dilute</button>
       </div>
   <h1>Result</h1>
-  <p id="result">Nothing yet</p>
+  <p >Mass: <span id="reg-mass"></span></p>
+  <p >ppm: <span id="reg-concentration"></span></p>
 </body>
+    <script>
+        setElements();
+    </script>
 </html>
