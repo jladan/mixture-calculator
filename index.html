@@ -8,7 +8,24 @@
 </head>
 
 <body>
-  <h1>Ingredients</h1>
+  <h1>Scales</h1>
+  <form>
+      <div>
+          <label for="salt">Salt (mg):</label>
+          <input type="number" name="salt" id="salt" value="0">
+          <input type="number" name="usalt" id="usalt" value="1">
+      </div>
+      <div>
+          <label for="water">Solution (g):</label>
+          <input type="number" name="water" id="water" value="0.0">
+          <input type="number" name="uwater" id="uwater" value="0.1">
+      </div>
+      <div>
+          <button type="button">Mix solid</button>
+          <button type="button">Subtract off</button>
+          <button type="button">Dilute</button>
+      </div>
   <h1>Result</h1>
-</body
+  <p id="result">Nothing yet</p>
+</body>
 </html>
