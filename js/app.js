@@ -44,7 +44,8 @@ var UValue = /** @class */ (function () {
 */
 function mix_solid(salt, water) {
     var concentration = salt.div(salt.add(water)).times(1e6);
-    return { c: concentration, m: water };
+    var mass = water.add(salt);
+    return { c: concentration, m: mass };
 }
 /* Dilute a mixture with distilled water
 */

@@ -54,7 +54,8 @@ interface Mixture {
 */
 function mix_solid(salt: UValue, water: UValue) : Mixture {
     let concentration = salt.div(salt.add(water)).times(1e6);
-    return {c: concentration, m: water};
+    let mass = water.add(salt);
+    return {c: concentration, m: mass};
 }
 
 /* Dilute a mixture with distilled water
@@ -118,7 +119,7 @@ function setElements() {
 }
 
 function mix_button() {
-let salt = new UValue(saltElem.valueAsNumber*1e-3, usaltElem.valueAsNumber*1e-3);
+    let salt = new UValue(saltElem.valueAsNumber*1e-3, usaltElem.valueAsNumber*1e-3);
     let water = new UValue(waterElem.valueAsNumber, uwaterElem.valueAsNumber);
     register = mix_solid(salt, water);
     output_register();
