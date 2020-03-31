@@ -72,16 +72,15 @@ function mix_two(sol1, sol2) {
     return { c: solute.div(mass), m: mass };
 }
 /********* The app's actual code *************/
-var regMassElem;
-var regConcElem;
+var formattedElems;
 var saltElem, usaltElem;
 var waterElem, uwaterElem, massElem, umassElem;
 var solElem, usolElem, solMassElem, usolMassElem;
 function outputSolution(register) {
     solElem.value = register.c.v; usolElem.value = register.c.u;
     solMassElem.value = register.m.v; usolMassElem.value = register.m.u;
-    regMassElem.innerText = register.m.v + " +- " + register.m.u + " g";
-    regConcElem.innerText = register.c.v + " +- " + register.c.u + " salt";
+    for (let e of formattedElems) 
+        e.innerText = register.c.v.toPrecision(5) + ", " +register.c.u.toPrecision(3);
 }
 function setElements() {
     // Salt crystals
@@ -98,8 +97,7 @@ function setElements() {
     solMassElem = document.getElementById('sol-mass');
     usolMassElem = document.getElementById('usol-mass');
     // Output
-    regMassElem = document.getElementById('reg-mass');
-    regConcElem = document.getElementById('reg-concentration');
+    formattedElems = document.getElementsByClassName('formatted');
 }
 function getSolution() {
     sol = {};
