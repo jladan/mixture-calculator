@@ -71,11 +71,15 @@ function mix_two(sol1, sol2) {
     var mass = sol1.m.add(sol2.m);
     return { c: solute.div(mass), m: mass };
 }
+
 /********* The app's actual code *************/
 var formattedElems;
 var saltElem, usaltElem;
 var waterElem, uwaterElem, massElem, umassElem;
 var solElem, usolElem, solMassElem, usolMassElem;
+
+var registersElem;
+
 function outputSolution(register) {
     solElem.value = register.c.v; usolElem.value = register.c.u;
     solMassElem.value = register.m.v; usolMassElem.value = register.m.u;
@@ -98,6 +102,8 @@ function setElements() {
     usolMassElem = document.getElementById('usol-mass');
     // Output
     formattedElems = document.getElementsByClassName('formatted');
+    // Stored registers
+    registersElem = document.getElementById('registers');
 }
 function getSolution() {
     sol = {};
@@ -130,4 +136,62 @@ function dilute_button() {
     var mass = new UValue(massElem.valueAsNumber, umassElem.valueAsNumber);
     sol = dilute(getSolution(), mass);
     outputSolution(sol);
+}
+
+// Storing values for later
+var registers = [];
+function retriever(sol, ppmElem, uppmElem, mElem, umElem) {
+    var retrieve = function() {
+        ppmElem.value = sol.c.v; uppmElem.value = sol.c.u;
+        mElem.value = sol.m.v; umElem.value = sol.m.u;
+    };
+    return retrieve;
+}
+function presentRegisters() {
+    for (let r of registers) {
+        if (!r.hasOwnProperty('rElem')) {
+            let rElem = addRegisterElem(r);
+            r.rElem = rElem;
+        }
+    }
+}
+function addRegisterElem(reg) {
+    rElem = document.createElement('div')
+    rElem.innerHTML = '<span>' + reg.c.v.toPrecision(5) +' ppm, ' + reg.m.v.toPrecision(5) + ' g</span>';
+    registersElem.append(rElem);
+    rElem.prepend(makeMixBtn(reg));
+    rElem.prepend(makeSolBtn(reg));
+    rElem.append(makeDelBtn(rElem));
+    return rElem;
+}
+function makeMixBtn(reg) {
+    var onClick = retriever(reg, waterElem, uwaterElem, massElem, umassElem);
+    let b = document.createElement('button');
+    b.setAttribute('type', 'button');
+    b.addEventListener('click', onClick);
+    b.innerText = 'Mix';
+    return b
+}
+function makeSolBtn(reg) {
+    var onClick = retriever(reg, solElem, usolElem, solMassElem, usolMassElem);
+    let b = document.createElement('button');
+    b.setAttribute('type', 'button');
+    b.addEventListener('click', onClick);
+    b.innerText = 'Soln';
+    return b
+}
+function makeDelBtn(rElem) {
+    var onClick = function() {
+        rElem.remove();
+    }
+    let b = document.createElement('button');
+    b.setAttribute('type', 'button');
+    b.addEventListener('click', onClick);
+    b.innerText = 'clear';
+    return b;
+}
+function storeOutput() {
+    sol = getSolution();
+    registers.push(sol);
+    presentRegisters();
 }
