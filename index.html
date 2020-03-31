@@ -26,16 +26,17 @@
           <input type="number" name="usalt" id="usalt" value="1">
       </div>
       <div>
-          <button type="button" id="dil-button" onclick="dilute_button()">Dilute</button>
+          <button type="button" id="dil-button" onclick="mix_button()">Mix soln</button>
           <label for="water">Water/dye (g):</label>
           <input type="number" name="water-ppm" id="water-ppm" value="0.0" step=".1">
           <input type="number" name="uwater-ppm" id="uwater-ppm" value="1.0" step=".1">
       </div>
       <div>
-          <button type="button" id="sub-button" onclick="subtract_button()">Subtract off</button>
+          <button type="button" id="sub-button" onclick="dilute_button()">Dilute</button>
           <label for="water">Mass</label>
           <input type="number" name="water-mass" id="water-mass" value="1000.0" step=".1">
           <input type="number" name="uwater-mass" id="uwater-mass" value="0.1" step=".1">
+          <button type="button" id="sub-button" onclick="subtract_button()">Subtract off</button>
       </div>
       <div>
       </div>

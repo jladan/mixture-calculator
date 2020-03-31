@@ -124,7 +124,12 @@ function subtract_button() {
     sol = split_mass(getSolution(), mass);
     outputSolution(sol);
 }
-function dilute_button() {
+function mix_button() {
     sol = mix_two(getSolution(), getWater());
+    outputSolution(sol);
+}
+function dilute_button() {
+    var mass = new UValue(massElem.valueAsNumber, umassElem.valueAsNumber);
+    sol = dilute(getSolution(), mass);
     outputSolution(sol);
 }
