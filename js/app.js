@@ -54,11 +54,6 @@ function dilute(sol, water) {
     var mass = water.add(sol.m);
     return { c: solute.div(mass), m: water.add(sol.m) };
 }
-/* Change mass of mixture (as in, pour into a new vessel)
-*/
-function change_mass(sol, new_mass) {
-    return { c: sol.c, m: new_mass };
-}
 /* Pour off some mass of a mixture
 * i.e. What's left
 */
@@ -72,48 +67,64 @@ function split_mass(sol, lost_mass) {
 *                 m1 + m2
 */
 function mix_two(sol1, sol2) {
-    var solute = sol1.c.mul(sol2.m).add(sol2.c.mul(sol2.m));
+    var solute = sol1.c.mul(sol1.m).add(sol2.c.mul(sol2.m));
     var mass = sol1.m.add(sol2.m);
     return { c: solute.div(mass), m: mass };
 }
 /********* The app's actual code *************/
-var register;
 var regMassElem;
 var regConcElem;
-function output_register() {
+var saltElem, usaltElem;
+var waterElem, uwaterElem, massElem, umassElem;
+var solElem, usolElem, solMassElem, usolMassElem;
+function outputSolution(register) {
+    solElem.value = register.c.v; usolElem.value = register.c.u;
+    solMassElem.value = register.m.v; usolMassElem.value = register.m.u;
     regMassElem.innerText = register.m.v + " +- " + register.m.u + " g";
     regConcElem.innerText = register.c.v + " +- " + register.c.u + " salt";
 }
-var saltElem;
-var usaltElem;
-var waterElem;
-var uwaterElem;
 function setElements() {
+    // Salt crystals
     saltElem = document.getElementById('salt');
     usaltElem = document.getElementById('usalt');
-    waterElem = document.getElementById('water');
-    uwaterElem = document.getElementById('uwater');
+    // Dye/water
+    waterElem = document.getElementById('water-ppm');
+    uwaterElem = document.getElementById('uwater-ppm');
+    massElem = document.getElementById('water-mass');
+    umassElem = document.getElementById('uwater-mass');
+    // Mixed solution
+    solElem = document.getElementById('sol-ppm');
+    usolElem = document.getElementById('usol-ppm');
+    solMassElem = document.getElementById('sol-mass');
+    usolMassElem = document.getElementById('usol-mass');
+    // Output
     regMassElem = document.getElementById('reg-mass');
     regConcElem = document.getElementById('reg-concentration');
 }
-function mix_button() {
+function getSolution() {
+    sol = {};
+    sol.c = new UValue(solElem.valueAsNumber, usolElem.valueAsNumber);
+    sol.m = new UValue(solMassElem.valueAsNumber, usolMassElem.valueAsNumber);
+    return sol;
+}
+function getWater() {
+    var water = {};
+    water.c = new UValue(waterElem.valueAsNumber, uwaterElem.valueAsNumber);
+    water.m = new UValue(massElem.valueAsNumber, umassElem.valueAsNumber);
+    return water;
+}
+function mix_salt_button() {
     var salt = new UValue(saltElem.valueAsNumber * 1e-3, usaltElem.valueAsNumber * 1e-3);
-    var water = new UValue(waterElem.valueAsNumber, uwaterElem.valueAsNumber);
-    register = mix_solid(salt, water);
-    output_register();
+    var water = new UValue(massElem.valueAsNumber, umassElem.valueAsNumber);
+    sol = mix_solid(salt, water);
+    outputSolution(sol);
 }
 function subtract_button() {
-    var water = new UValue(waterElem.valueAsNumber, uwaterElem.valueAsNumber);
-    register = split_mass(register, water);
-    output_register();
-}
-function set_mass_button() {
-    var water = new UValue(waterElem.valueAsNumber, uwaterElem.valueAsNumber);
-    register = change_mass(register, water);
-    output_register();
+    var mass = new UValue(massElem.valueAsNumber, umassElem.valueAsNumber);
+    sol = split_mass(getSolution(), mass);
+    outputSolution(sol);
 }
 function dilute_button() {
-    var water = new UValue(waterElem.valueAsNumber, uwaterElem.valueAsNumber);
-    register = dilute(register, water);
-    output_register();
+    sol = mix_two(getSolution(), getWater());
+    outputSolution(sol);
 }

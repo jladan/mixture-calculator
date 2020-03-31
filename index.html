@@ -9,24 +9,37 @@
 
 <body>
   <p>source: <a href="https://github.com/jladan/mixture-calculator">https://github.com/jladan/mixture-calculator</a></p>
-  <h1>Scales</h1>
+  <h1>Mixture</h1>
   <form>
       <div>
+          <label for="sol">Solution:</label>
+          <input type="number" name="sol-ppm" id="sol-ppm" value="0.0" step=".1">
+          <input type="number" name="usol-ppm" id="usol-ppm" value="1.0" step=".1">
+          <input type="number" name="sol-mass" id="sol-mass" value="1000.0" step=".1">
+          <input type="number" name="usol-mass" id="usol-mass" value=".1" step=".1">
+      </div>
+      <h2>Mixins</h2>
+      <div>
+          <button type="button" id="mix-button" onclick="mix_salt_button()">Mix salt</button>
           <label for="salt">Salt (mg):</label>
           <input type="number" name="salt" id="salt" value="0">
           <input type="number" name="usalt" id="usalt" value="1">
       </div>
       <div>
-          <label for="water">Solution (g):</label>
-          <input type="number" name="water" id="water" value="1000" step=".1">
-          <input type="number" name="uwater" id="uwater" value="0.1" step=".1">
+          <button type="button" id="dil-button" onclick="dilute_button()">Dilute</button>
+          <label for="water">Water/dye (g):</label>
+          <input type="number" name="water-ppm" id="water-ppm" value="0.0" step=".1">
+          <input type="number" name="uwater-ppm" id="uwater-ppm" value="1.0" step=".1">
       </div>
       <div>
-          <button type="button" id="mix-button" onclick="mix_button()">Mix solid</button>
           <button type="button" id="sub-button" onclick="subtract_button()">Subtract off</button>
-          <button type="button" id="set-button" onclick="set_mass_button()">Set Mass</button>
-          <button type="button" id="dil-button" onclick="dilute_button()">Dilute</button>
+          <label for="water">Mass</label>
+          <input type="number" name="water-mass" id="water-mass" value="1000.0" step=".1">
+          <input type="number" name="uwater-mass" id="uwater-mass" value="0.1" step=".1">
       </div>
+      <div>
+      </div>
+  </form>
   <h1>Result</h1>
   <p >Mass: <span id="reg-mass"></span></p>
   <p >ppm: <span id="reg-concentration"></span></p>
